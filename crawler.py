@@ -94,7 +94,7 @@ class Crawler:
         response = requests.put(url, params, allow_redirects=False)
       case 'DELETE':
         response = requests.delete(url, allow_redirects=False)
-    self.visited[link]=(response.code, response.headers)
+    self.visited[link]=(response.status_code, response.headers)
     return response.text
 
   def crawl(self, url, depth=5):
