@@ -1,3 +1,3 @@
 /usr/bin/python3 -m venv venv
-./venv/bin/activate
+source ./venv/bin/activate
 pip3 install -r ./requirements.txt
