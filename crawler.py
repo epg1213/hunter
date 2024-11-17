@@ -96,7 +96,7 @@ class Crawler:
       case 'DELETE':
         response = requests.delete(url, allow_redirects=False)
     self.visited[json.dumps(link)]=(response.status_code, response.headers)
-    return response.text
+    return response
 
   def crawl(self, url, depth=5):
     parsed_url = urlparse(url)
