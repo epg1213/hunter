@@ -99,7 +99,7 @@ class Crawler:
 
   def crawl(self, url, depth=5):
     parsed_url = urlparse(url)
-    self.scheme=[parsed_url.scheme if parsed_url.scheme in ['https', 'http'] else 'https']
+    self.scheme=parsed_url.scheme if parsed_url.scheme in ['https', 'http'] else 'https'
     self.netloc=parsed_url.netloc
     self.baseURL = f"{self.scheme}://{self.netloc}"
     self.visited={}
