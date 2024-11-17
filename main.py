@@ -1,4 +1,5 @@
 from crawler import Crawler
 
 url="https://hackazon.trackflaw.com"
-print(Crawler.crawl(url))
+crawler = Crawler()
+print(crawler.crawl(url))
