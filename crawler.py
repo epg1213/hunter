@@ -2,6 +2,7 @@ import requests
 from html.parser import HTMLParser
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
+import json
 
 class LinksInHTMLParser(HTMLParser):
   def get_values_from_attrs(self, attrs, key):
@@ -94,7 +95,7 @@ class Crawler:
         response = requests.put(url, params, allow_redirects=False)
       case 'DELETE':
         response = requests.delete(url, allow_redirects=False)
-    self.visited[link]=(response.status_code, response.headers)
+    self.visited[json.dumps(link)]=(response.status_code, response.headers)
     return response.text
 
   def crawl(self, url, depth=5):
@@ -110,7 +111,7 @@ class Crawler:
       i+=1
       new_links=[]
       for link in links:
-        if link in self.visited:
+        if json.dumps(link) in self.visited:
           continue
         fetched=self.get_links(link)
         new_links+=fetched
