@@ -115,7 +115,7 @@ class Crawler:
           continue
         fetched=self.get_links(link)
         new_links+=fetched
-      links=list(set(links+new_links))
+      links=new_links
 
   def get_links(self, link):
     response = self.make_request(link)
