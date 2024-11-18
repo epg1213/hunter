@@ -5,19 +5,21 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-if [ $1 = "start" ]; then
-
-case $OPTION in
+case $1 in
     "start")
-        echo "start"
+        echo "Starting server..."
+        sudo docker start hunter-mysql > /dev/null
+        echo "Done."
         exit 0
         ;;
     "stop")
-        echo "stop"
+        echo "Stopping server..."
+        sudo docker stop hunter-mysql > /dev/null
+        echo "Done."
         exit 0
         ;;
-    ?)
-        echo "Usage: hunter start|stop"
-        exit 1
-        ;;
 esac
+
+echo "Usage: hunter start|stop"
+exit 1
+;;
