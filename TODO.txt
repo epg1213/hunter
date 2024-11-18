@@ -1,3 +1,1 @@
-garder en memoire la methode du form pour savoir comment requêter le serveur en restant discret
-donc au lieu de raw=['url1', 'url2'] avoir raw=[('GET', 'url1'), ('POST', 'url2', {"param":"defaultvalue"})]
-voire même idem pour GET
+Database installation.

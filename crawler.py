@@ -1,68 +1,52 @@
-import requests
 from html.parser import HTMLParser
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
-import json
+from browser import RequestMaker
 
 class LinksInHTMLParser(HTMLParser):
-  def get_values_from_attrs(self, attrs, key):
-    values=[]
+  def get_value_from_attrs(self, attrs, key):
     for attr in attrs:
       if attr[0]==key:
-        values.append(attr[1])
-    return values
+        return attr[1]
+    return ''
 
   def handle_tag_a(self, attrs):
-    try:
-      parsed_url = urlparse(self.get_values_from_attrs(attrs, 'href')[0])
-    except IndexError:
-      return None
+    parsed_url = urlparse(self.get_value_from_attrs(attrs, 'href'))
     if not parsed_url.scheme in ['', 'http', 'https']:
-      return None
+      return
     method='GET'
     netloc=parsed_url.netloc
     page=parsed_url.path
-    params=parse_qs(parsed_url.query)
-    return (method, netloc, page, params)
+    params={}
+    for key, value in parse_qs(parsed_url.query).items():
+      params[key]=value[0]
+    link=(method, netloc, page, params)
+    if not link in self.links:
+      self.links.append(link)
 
   def handle_tag_form(self, attrs):
     self.in_form=True
-    try:
-      parsed_url = urlparse(self.get_values_from_attrs(attrs, 'action')[0])
-      netloc=parsed_url.netloc
-      page=parsed_url.path
-    except IndexError:
-      netloc=''
-      page=''
-    try:
-      method = self.get_values_from_attrs(attrs, 'method')[0].upper()
-    except IndexError:
+    method = self.get_value_from_attrs(attrs, 'method').upper()
+    if method=='':
       method = 'GET'
+    parsed_url = urlparse(self.get_value_from_attrs(attrs, 'action'))
+    netloc=parsed_url.netloc
+    page=parsed_url.path
     self.form_data=[method, netloc, page, {}]
 
   def handle_tag_input_textarea(self, attrs):
-    try:
-      name = self.get_values_from_attrs(attrs, 'name')[0]
-      try:
-        value = self.get_values_from_attrs(attrs, 'value')[0]
-      except IndexError:
-        value=''
-      if name in self.form_data[3]:
-        self.form_data[3][name].append(value)
-      else:
-        self.form_data[3][name]=[value]
-    except IndexError:
-      pass
+    name = self.get_value_from_attrs(attrs, 'name')
+    value = self.get_value_from_attrs(attrs, 'value')
+    self.form_data[3][name]=value
 
   def handle_starttag(self, tag, attrs):
-    if tag=='a':
-      link=self.handle_tag_a(attrs)
-      if link is not None and not link in self.links:
-        self.links.append(link)
-    elif tag=='form':
-      self.handle_tag_form(attrs)
-    elif tag=='input' or tag=='textarea':
-      self.handle_tag_input_textarea(attrs)
+    match tag:
+      case 'a':
+        self.handle_tag_a(attrs)
+      case 'form':
+        self.handle_tag_form(attrs)
+      case 'input' | 'textarea':
+        self.handle_tag_input_textarea(attrs)
 
   def handle_endtag(self, tag):
     if tag=='form':
@@ -78,27 +62,12 @@ class LinksInHTMLParser(HTMLParser):
     return self.links
 
 class Crawler:
-  def make_request(self, link):
-    method, netloc, path, params = link
-    if netloc!='':
-      return 0
-    if path.startswith('/'):
-      url=f"{self.baseURL}{path}"
-    else:
-      url=f"{self.baseURL}/{path}"
-    match method:
-      case 'GET':
-        response = requests.get(url, params, allow_redirects=False)
-      case 'POST':
-        response = requests.post(url, params, allow_redirects=False)
-      case 'PUT':
-        response = requests.put(url, params, allow_redirects=False)
-      case 'DELETE':
-        response = requests.delete(url, allow_redirects=False)
-    self.visited[json.dumps(link)]=(response.status_code, response.headers)
-    return response
+  def __init__(depth=5, max_visits=10):
+    self.browser=RequestMaker()
+    self.depth=depth
+    self.max_visits=max_visits
 
-  def crawl(self, url, depth=5):
+  def crawl(self, url):
     parsed_url = urlparse(url)
     self.scheme=parsed_url.scheme if parsed_url.scheme in ['https', 'http'] else 'https'
     self.netloc=parsed_url.netloc
@@ -107,17 +76,24 @@ class Crawler:
 
     links=self.get_links(('GET', '', parsed_url.path, {}))
     i=1
-    while i<depth:
+    while i<self.depth:
       i+=1
       new_links=[]
       for link in links:
-        if json.dumps(link) in self.visited:
+        visit_id=f"{link[0]}:{link[2]}"
+        if visit_id in self.visited and self.visited[visit_id]>=self.max_visits:
           continue
         fetched=self.get_links(link)
         new_links+=fetched
       links=new_links
 
   def get_links(self, link):
-    response = self.make_request(link)
-    parser = LinksInHTMLParser()
-    return parser.parse_html_content(response.text)
+    response = self.browser.make_request(self.baseURL, link)
+    if 'Set-Cookie' in response.headers:
+      self.browser.set_cookie(response.headers['Set-Cookie'])
+    visit_id=f"{link[0]}:{link[2]}"
+    if visit_id in self.visited:
+      self.visited[f"{link[0]}:{link[2]}"]+=1
+    else:
+      self.visited[f"{link[0]}:{link[2]}"]=1
+    return LinksInHTMLParser().parse_html_content(response.text)
