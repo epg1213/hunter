@@ -1,7 +1,8 @@
 import requests
 
 class RequestMaker():
-  self.headers=={'User-agent': "https://github.com/epg1213/hunter"}
+  def __init__(self):
+    self.headers={'User-agent': "https://github.com/epg1213/hunter"}
 
   def set_cookie(self, cookie):
     self.headers['Cookie'] = cookie

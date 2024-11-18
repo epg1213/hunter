@@ -62,7 +62,7 @@ class LinksInHTMLParser(HTMLParser):
     return self.links
 
 class Crawler:
-  def __init__(depth=5, max_visits=10):
+  def __init__(self, depth=5, max_visits=10):
     self.browser=RequestMaker()
     self.depth=depth
     self.max_visits=max_visits
