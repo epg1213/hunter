@@ -1,0 +1,23 @@
+#!/usr/bin/sh
+
+if [ -z "$1" ]; then
+    echo "Usage: hunter start|stop"
+    exit 1
+fi
+
+if [ $1 = "start" ]; then
+
+case $OPTION in
+    "start")
+        echo "start"
+        exit 0
+        ;;
+    "stop")
+        echo "stop"
+        exit 0
+        ;;
+    ?)
+        echo "Usage: hunter start|stop"
+        exit 1
+        ;;
+esac

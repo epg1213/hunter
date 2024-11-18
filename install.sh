@@ -1,7 +1,4 @@
-/usr/bin/python3 -m venv venv
-source ./venv/bin/activate
-pip3 install -r ./requirements.txt
-
+echo "Checking for docker installation..."
 if ! docker --version; then
 	echo "Docker doesn't seem to be installed"
     sudo apt install curl
@@ -9,8 +6,19 @@ if ! docker --version; then
     sudo sh get-docker.sh
 fi
 
+echo "Setting up Database..."
 DBPASS=$(tr -dc 'A-Za-z0-9!#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' </dev/urandom | head -c 16)
 echo $DBPASS > .dbpass
 sudo docker stop hunter-mysql > /dev/null
 sudo docker rm hunter-mysql > /dev/null
 sudo docker run --name hunter-mysql -p 42601:3306 -e MYSQL_ROOT_PASSWORD=$DBPASS -d mysql:latest
+
+echo "Preparing management script \"hunter\"..."
+chmod +x hunter
+echo "alias hunter=\"$(pwd)/hunter\"" > ~/.bash_aliases
+source ~/.profile
+
+echo "Installing required python packages..."
+/usr/bin/python3 -m venv venv
+source ./venv/bin/activate
+pip3 install -r ./requirements.txt
