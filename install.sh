@@ -9,6 +9,6 @@ if ! docker --version; then
     sudo sh get-docker.sh
 fi
 
-DBPASS=tr -dc 'A-Za-z0-9!#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' </dev/urandom | head -c 16
+DBPASS=$(tr -dc 'A-Za-z0-9!#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' </dev/urandom | head -c 16)
 echo $DBPASS > .dbpass
 sudo docker run --name hunter-mysql -p 42601:3306 -e MYSQL_ROOT_PASSWORD=$DBPASS -d mysql:latest
