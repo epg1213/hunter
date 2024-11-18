@@ -11,6 +11,6 @@ fi
 
 DBPASS=$(tr -dc 'A-Za-z0-9!#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' </dev/urandom | head -c 16)
 echo $DBPASS > .dbpass
-sudo docker stop hunter-mysql 2>/dev/null
-sudo docker rm hunter-mysql 2>/dev/null
+sudo docker stop hunter-mysql > /dev/null
+sudo docker rm hunter-mysql > /dev/null
 sudo docker run --name hunter-mysql -p 42601:3306 -e MYSQL_ROOT_PASSWORD=$DBPASS -d mysql:latest
