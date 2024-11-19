@@ -9,9 +9,9 @@ fi
 echo "Setting up Database..."
 DBPASS=$(tr -dc 'A-Za-z0-9!#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' </dev/urandom | head -c 16)
 echo $DBPASS > .dbpass
-sudo docker stop hunter-mysql > /dev/null
-sudo docker rm hunter-mysql > /dev/null
-sudo docker run --name hunter-mysql -p 42601:3306 -e MYSQL_ROOT_PASSWORD=$DBPASS -d mysql:latest
+sudo docker stop hunter-mysql
+sudo docker rm hunter-mysql
+sudo docker run --name hunter-mysql -p 42601:3306 -e MYSQL_ROOT_PASSWORD=$DBPASS -e MYSQL_DATABASE=hunting -d mysql:latest
 
 echo "Preparing management script \"hunter\"..."
 chmod +x hunter
