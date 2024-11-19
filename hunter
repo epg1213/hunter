@@ -17,7 +17,7 @@ case $1 in
     "stop")
         echo "Stopping server..."
         sudo docker stop hunter-mysql
-        ps -ax | grep "$webapp" | grep -v grep | awk '{print $1}' | xargs kill $1
+        kill $(ps -ax | grep "$webapp" | grep -v grep | awk '{print $1}')
         echo "Done."
         exit 0
         ;;
