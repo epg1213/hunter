@@ -1,5 +1,6 @@
 import mysql.connector
 from os import listdir
+from time import sleep
 
 class DataBase:
     def __init__(self):
@@ -41,5 +42,13 @@ class DataBase:
 
 if __name__=="__main__":
     db=DataBase()
+    for i in range(20):
+        try:
+            db.request('SHOW TABLES', ())
+            break
+        except mysql.connector.errors.OperationalError:
+            sleep(1)
+    if i==19:
+        exit("Could not connect to database after 20 attempts.")
     for file in listdir('db_setup'):
         db.runfile(f"db_setup/{file}")
