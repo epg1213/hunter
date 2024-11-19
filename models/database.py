@@ -8,6 +8,7 @@ class DataBase:
         self.user='root'
         self.password=password
         self.host='127.0.0.1'
+        self.port='42601'
         self.database='hunting'
 
     def request(self, query, params, many=False):
@@ -15,6 +16,7 @@ class DataBase:
             user=self.user,
             password=self.password,
             host=self.host,
+            port=self.port,
             database=self.database
         )
         cursor = cnx.cursor()
