@@ -1,2 +1,4 @@
 __pycache__/
+venv/
 get-docker.sh
+.dbpass

@@ -42,13 +42,13 @@ class DataBase:
 
 if __name__=="__main__":
     db=DataBase()
-    for i in range(20):
+    for i in range(30):
         try:
             db.request('SHOW TABLES', ())
             break
         except mysql.connector.errors.OperationalError:
             sleep(1)
-    if i==19:
-        exit("Could not connect to database after 20 attempts.")
+    if i==29:
+        exit("ERROR: Could not connect to database after 30 attempts.")
     for file in listdir('db_setup'):
         db.runfile(f"db_setup/{file}")
