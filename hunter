@@ -1,4 +1,5 @@
 #!/usr/bin/sh
+webapp="$(dirname $0)/venv/bin/python3 $(dirname $0)/main.py"
 
 if [ -z "$1" ]; then
     echo "Usage: hunter start|stop"
@@ -8,13 +9,15 @@ fi
 case $1 in
     "start")
         echo "Starting server..."
-        sudo docker start hunter-mysql > /dev/null
+        sudo docker start hunter-mysql
+        $($webapp)
         echo "Done."
         exit 0
         ;;
     "stop")
         echo "Stopping server..."
-        sudo docker stop hunter-mysql > /dev/null
+        sudo docker stop hunter-mysql
+        ps -ax | grep "$webapp" | grep -v grep | awk '{print $1}' | xargs kill $1
         echo "Done."
         exit 0
         ;;
