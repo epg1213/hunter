@@ -12,7 +12,9 @@ echo $DBPASS > .dbpass
 sudo docker stop hunter-mysql
 sudo docker rm hunter-mysql
 sudo docker run --name hunter-mysql -p 42601:3306 -e MYSQL_ROOT_PASSWORD=$DBPASS -e MYSQL_DATABASE=hunting -d mysql:latest
-sleep 5
+
+echo "Waiting for the container to be healthy..."
+sleep 10
 
 echo "Preparing management script \"hunter\"..."
 chmod +x hunter
