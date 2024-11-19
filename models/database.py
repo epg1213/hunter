@@ -34,10 +34,10 @@ class DataBase:
     def runfile(self, filename):
         with open(filename, 'r') as file:
             content=file.read()
-        for query in content.split(';')[:-1]
+        for query in content.split(';')[:-1]:
             self.request(query, ())
 
 if __name__=="__main__":
     db=DataBase()
-    for file in os.listdir('db_setup'):
+    for file in listdir('db_setup'):
         db.runfile(f"db_setup/{file}")
