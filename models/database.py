@@ -37,7 +37,7 @@ class DataBase:
     def runfile(self, filename):
         with open(filename, 'r') as file:
             content=file.read()
-        for query in content.split(';')[:-1]:
+        for query in content.replace('\n', ' ').split(';')[:-1]:
             self.request(query, ())
 
 if __name__=="__main__":
