@@ -1,4 +1,4 @@
-from crawler import Crawler
+from models.crawler import Crawler
 
 url="https://hackazon.trackflaw.com"
 crawler = Crawler()

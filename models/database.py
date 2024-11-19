@@ -1,4 +1,5 @@
 import mysql.connector
+from os import listdir
 
 class DataBase:
     def __init__(self):
@@ -9,7 +10,7 @@ class DataBase:
         self.host='127.0.0.1'
         self.database='hunting'
 
-    def request(self, query, params):
+    def request(self, query, params, many=False):
         cnx = mysql.connector.connect(
             user=self.user,
             password=self.password,
@@ -17,9 +18,26 @@ class DataBase:
             database=self.database
         )
         cursor = cnx.cursor()
+        if many:
+            cursor.executemany(query, params)
+            cnx.commit()
+            cursor.close()
+            cnx.close()
+            return []
         cursor.execute(query, params)
         data=cursor.fetchall()
         cnx.commit()
         cursor.close()
         cnx.close()
         return data
+    
+    def runfile(self, filename):
+        with open(filename, 'r') as file:
+            content=file.read()
+        for query in content.split(';')[:-1]
+            self.request(query, ())
+
+if __name__=="__main__":
+    db=DataBase()
+    for file in os.listdir('db_setup'):
+        db.runfile(f"db_setup/{file}")
