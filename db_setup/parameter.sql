@@ -3,6 +3,6 @@ CREATE TABLE parameter (
     page_id int,
     name VARCHAR(255),
     type VARCHAR(255),
-    first_seen_value (255),
+    first_seen_value VARCHAR(255),
     PRIMARY KEY (id)
 );
