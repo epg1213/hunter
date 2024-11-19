@@ -2,7 +2,7 @@
 webapp="$(dirname $0)/venv/bin/python3 $(dirname $0)/main.py"
 
 if [ -z "$1" ]; then
-    echo "Usage: hunter start|stop"
+    echo "Usage: hunter start|stop|status"
     exit 1
 fi
 
@@ -21,8 +21,18 @@ case $1 in
         echo "Done."
         exit 0
         ;;
+    "status")
+        echo "Status:"
+        pscount=$(ps -ax | grep "$webapp" | grep -v grep | wc -l)
+        if [ pscount > 0 ]; then
+            echo "Running"
+        else
+            echo "Stopped"
+        fi
+        exit 0
+        ;;
 esac
 
-echo "Usage: hunter start|stop"
+echo "Usage: hunter start|stop|status"
 exit 1
 ;;

@@ -12,5 +12,6 @@ Then you should be able to use the following commands:
 
 hunter stop
 hunter start
+hunter status
 
 To switch the server up and down.
