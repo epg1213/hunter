@@ -24,10 +24,10 @@ case $1 in
     "status")
         echo "Status:"
         pscount=$(ps -ax | grep "$webapp" | grep -v grep | wc -l)
-        if [ pscount > 0 ]; then
-            echo "Running"
-        else
+        if [ $pscount -eq 0 ]; then
             echo "Stopped"
+        else
+            echo "Running"
         fi
         exit 0
         ;;
