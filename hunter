@@ -1,4 +1,5 @@
 #!/usr/bin/sh
+cd $(dirname $0)
 webapp="$(dirname $0)/venv/bin/python3 $(dirname $0)/main.py"
 
 if [ -z "$1" ]; then

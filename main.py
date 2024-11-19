@@ -5,7 +5,7 @@ crawler = Crawler()
 crawler.crawl(url)
 print(crawler.visited)"""
 
-from flask import Flask
+from flask import Flask, render_template
 import logging
 
 app = Flask(__name__)
@@ -14,6 +14,6 @@ log.setLevel(logging.ERROR)
 
 @app.route('/')
 def index():
-    return 'Web App with Python Flask!'
+    return render_template('index.html')
 
 app.run(host='0.0.0.0', port=42602)

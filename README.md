@@ -10,8 +10,12 @@ source ~/.profile
 
 Then you should be able to use the following commands:
 
-hunter stop
 hunter start
+hunter stop
 hunter status
 
 To switch the server up and down.
+
+when the server is up use this url tu access the web interface:
+
+http://[yourip]:42602
