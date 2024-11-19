@@ -10,7 +10,7 @@ case $1 in
     "start")
         echo "Starting server..."
         sudo docker start hunter-mysql
-        $webapp > /dev/null &
+        $webapp 2>&1 >/dev/null &
         echo "Done."
         exit 0
         ;;
