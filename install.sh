@@ -6,7 +6,7 @@ if ! docker --version; then
     sudo sh get-docker.sh
 fi
 
-echo "Setting up Database..."
+echo "Setting up Database containter..."
 DBPASS=$(tr -dc 'A-Za-z0-9!#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' </dev/urandom | head -c 16)
 echo $DBPASS > .dbpass
 sudo docker stop hunter-mysql
@@ -17,7 +17,12 @@ echo "Preparing management script \"hunter\"..."
 chmod +x hunter
 echo "alias hunter=\"$(pwd)/hunter\"" >> ~/.bash_aliases
 
-echo "Installing required python packages..."
+echo "Creating python virtual environment..."
 /usr/bin/python3 -m venv venv
 source ./venv/bin/activate
+
+echo "Installing required python packages..."
 pip3 install -r ./requirements.txt
+
+echo "Setting up Database..."
+python3 models/database.py
