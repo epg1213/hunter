@@ -14,7 +14,6 @@ sudo docker rm hunter-mysql
 sudo docker run --name hunter-mysql -p 42601:3306 -e MYSQL_ROOT_PASSWORD=$DBPASS -e MYSQL_DATABASE=hunting -d mysql:latest
 
 echo "Preparing management script \"hunter\"..."
-chmod +x hunter
 echo "alias hunter=\"$(pwd)/hunter\"" >> ~/.bash_aliases
 
 echo "Creating python virtual environment..."
