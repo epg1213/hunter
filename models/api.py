@@ -12,7 +12,7 @@ def create_project(name):
 
 def get_project(project_id):
     project=db.request("SELECT * FROM project WHERE id=%s", (project_id,))
-    if len(project>0):
+    if len(project)>0:
         return project[0]
     return project
 
