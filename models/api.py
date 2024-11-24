@@ -11,13 +11,13 @@ def create_project(name):
     return db.request("INSERT INTO project(name, creation_date) VALUES(%s, %s)", (name, date))
 
 def get_project(project_id):
-    project=db.request("SELECT * FROM project WHERE id=%s", (project_id))
+    project=db.request("SELECT * FROM project WHERE id=%s", (project_id,))
     if len(project>0):
         return project[0]
     return project
 
 def get_websites(project_id):
-    return db.request("SELECT * FROM website WHERE project_id=%s ORDER BY id DESC", (project_id))
+    return db.request("SELECT * FROM website WHERE project_id=%s ORDER BY id DESC", (project_id,))
 
 def create_website(project_id, name):
     date=datetime.datetime.now()
