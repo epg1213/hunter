@@ -11,7 +11,7 @@ def create_project(name):
     return db.request("INSERT INTO project(name, creation_date) VALUES(%s, %s)", (name, date))
 
 def get_project(project_id):
-    project=db.request("SELECT * FROM project WHERE id=%s", (project_id))[0]
+    project=db.request("SELECT * FROM project WHERE id=%s", (project_id))
     if len(project>0):
         return project[0]
     return project
