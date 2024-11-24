@@ -6,12 +6,9 @@ crawler.crawl(url)
 print(crawler.visited)"""
 
 from flask import Flask, render_template, request
-import logging
 from models.api import *
 
 app = Flask(__name__)
-log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
