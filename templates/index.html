@@ -7,5 +7,8 @@
 </head>
 <body>
     test
+    {% for project in projects %}
+    {project[0]} : {project[1]} : {project[2]}
+    {% endfor %}
 </body>
 </html>

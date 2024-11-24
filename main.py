@@ -14,6 +14,6 @@ log.setLevel(logging.ERROR)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', projects=[[1, "superprojet", ""], [2, "testprojet", ""]])
 
 app.run(host='0.0.0.0', port=42602)
