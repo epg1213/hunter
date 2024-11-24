@@ -6,9 +6,13 @@
     <title>Projects</title>
 </head>
 <body>
-    test
-    {% for project in projects %}
-    {project[0]} : {project[1]} : {project[2]}
-    {% endfor %}
+    <h1>Projects</h1>
+    <div>
+        {% for project in projects %}
+        <a href="/project?id={{project[0]}}">
+        {{project[1]}} (created on {{project[2]}})</a>
+        </br>
+        {% endfor %}
+    </div>
 </body>
 </html>
