@@ -19,4 +19,13 @@ def index():
         create_project(request.form['name'])
     return render_template('index.html', projects=get_projects())
 
+@app.route('/project', methods=['GET', 'POST'])
+def project():
+    project_id=0
+    if 'id' in request.args:
+        project_id=request.args['id']
+    if request.method == 'POST' and 'name' in request.form:
+        create_website(project_id, request.form['name'])
+    return render_template('project.html', project=get_project(project_id), websites=get_websites(project_id))
+
 app.run(host='0.0.0.0', port=42602)
