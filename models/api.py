@@ -30,4 +30,4 @@ def get_website(website_id):
     return website
 
 def get_pages(website_id):
-    return db.request("SELECT * FROM pages WHERE website_id=%s ORDER BY id DESC", (website_id,))
+    return db.request("SELECT * FROM page WHERE website_id=%s ORDER BY id DESC", (website_id,))
