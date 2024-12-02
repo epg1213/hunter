@@ -22,3 +22,12 @@ def get_websites(project_id):
 def create_website(project_id, name):
     date=datetime.datetime.now()
     return db.request("INSERT INTO website(project_id, name, added_date) VALUES(%s, %s, %s)", (project_id, name, date))
+
+def get_website(website_id):
+    website=db.request("SELECT * FROM website WHERE id=%s ORDER BY id DESC", (website_id,))
+    if len(website)>0:
+        return website[0]
+    return website
+
+def get_pages(website_id):
+    return db.request("SELECT * FROM pages WHERE website_id=%s ORDER BY id DESC", (website_id,))

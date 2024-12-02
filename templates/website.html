@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', 'bulma.min.css') }}">
+    <title>Website</title>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Website</h1>
+            <div class="subtitle">
+                <a href="/project?id={{website[1]}}">back</a>
+                {{website[2]}} (added on {{website[3]}})
+            </div>
+            <div class="columns is-desktop">
+                <div class="column">
+                    <label class="label">Available actions</label>
+                    <button class="button is-black">Crawl</button>
+                </div>
+                <div class="column">
+                    <label class="label">Websites list</label>
+                    <table class="table is-bordered is-fullwidth">
+                        <tbody>
+                            {% for page in pages %}
+                            <tr>
+                                <tr>
+                                    <th class="is-link">{{page[2]}}</th>
+                                    <td class="is-link">({{page[3]}} bytes)</td>
+                                    {% if page[3]!='' %}
+                                    <td class="is-link">redirects to {{page[3]}}</td>
+                                    {% else %}
+                                    <td class="is-link"></td>
+                                    {% endif %}
+                                </tr>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

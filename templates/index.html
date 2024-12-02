@@ -1,24 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects</title>
+    <link rel="stylesheet" href="{{ url_for('static', 'bulma.min.css') }}">
+    <title>Hunter</title>
 </head>
+
 <body>
-    <h1>Projects</h1>
-    <div>
-        {% for project in projects %}
-        <a href="/project?id={{project[0]}}">
-        {{project[1]}} (created on {{project[2]}})</a>
-        </br>
-        {% endfor %}
-    </div>
-    <div>
-        <form action="/" method="POST">
-            <input type="text" name="name">
-            <input type="submit">
-        </form>
-    </div>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Hunter</h1>
+            <div class="columns is-desktop">
+                <div class="column">
+                    <form action="/" method="POST">
+                        <div class="field">
+                            <label class="label">New project</label>
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Name" name="name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-link">Add new project</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="column">
+                    <label class="label">Projects list</label>
+                    <table class="table is-bordered is-fullwidth">
+                        <tbody>
+                            {% for project in projects %}
+                            <tr>
+                                <th class="is-link"><a href="/project?id={{project[0]}}">{{project[1]}}</a></th>
+                                <td class="is-link">(created on {{project[2]}})</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
+
 </html>

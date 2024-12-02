@@ -1,28 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', 'bulma.min.css') }}">
     <title>Project</title>
 </head>
+
 <body>
-    <h1>Project</h1>
-    <div>
-        <a href="/">back</a>
-        {{project[1]}} (created on {{project[2]}})
-    </div>
-    <div>
-        {% for website in websites %}
-        <a href="/website?id={{website[0]}}">
-        {{website[2]}} (added on {{website[3]}})</a>
-        </br>
-        {% endfor %}
-    </div>
-    <div>
-        <form action="/project?id={{project[0]}}" method="POST">
-            <input type="text" name="name">
-            <input type="submit">
-        </form>
-    </div>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Project</h1>
+            <div class="subtitle">
+                <a href="/">back</a>
+                {{project[1]}} (created on {{project[2]}})
+            </div>
+            <div class="columns is-desktop">
+                <div class="column">
+                    <form action="/project?id={{project[0]}}" method="POST">
+                        <div class="field">
+                            <label class="label">New website</label>
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Name" name="name">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-link">Add new website</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="column">
+                    <label class="label">Websites list</label>
+                    <table class="table is-bordered is-fullwidth">
+                        <tbody>
+                            {% for website in websites %}
+                            <tr>
+                                <th class="is-link"><a href="/website?id={{website[0]}}">{{website[2]}}</a></th>
+                                <td class="is-link">(added on {{website[3]}})</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
+
 </html>

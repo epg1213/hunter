@@ -25,4 +25,11 @@ def project():
         create_website(project_id, request.form['name'])
     return render_template('project.html', project=get_project(project_id), websites=get_websites(project_id))
 
+@app.route('/website')
+def website():
+    website_id=0
+    if 'id' in request.args:
+        website_id=request.args['id']
+    return render_template('website.html', website=get_website(website_id), pages=get_pages(website_id))
+
 app.run(host='0.0.0.0', port=42602)
