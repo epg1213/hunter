@@ -33,7 +33,7 @@ def website():
         website_id=request.args['id']
     return render_template('website.html', website=get_website(website_id), pages=get_pages(website_id))
 
-@app.route('/crawl')
+@app.route('/crawl', methods=['POST'])
 def crawl():
     if not 'id' in request.form:
         return jsonify({"success":False})
