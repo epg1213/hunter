@@ -35,10 +35,11 @@ def website():
 
 @app.route('/crawl', methods=['POST'])
 def crawl():
-    if not 'id' in request.form:
+    if not 'id' in request.json:
         return jsonify({"success":False})
-    website_id=request.form['id']
+    website_id=request.json['id']
     crawler = Crawler()
     crawler.crawl(get_url(website_id))
+    jsonify({"success":True})
 
 app.run(host='0.0.0.0', port=42602)
