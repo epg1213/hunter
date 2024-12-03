@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='bulma.min.css') }}">
     <title>Website</title>
+    <script src="{{ url_for('static', filename='website.js') }}"></script>
 </head>
 
 <body>
@@ -19,23 +20,23 @@
             <div class="columns is-desktop">
                 <div class="column">
                     <label class="label">Available actions</label>
-                    <button class="button is-black">Crawl</button>
+                    <button class="button is-black" onclick="crawl('{{website[0]}}')">Crawl</button>
                 </div>
                 <div class="column">
-                    <label class="label">Websites list</label>
+                    <label class="label">Pages list</label>
                     <table class="table is-bordered is-fullwidth">
                         <tbody>
                             {% for page in pages %}
                             <tr>
-                                <tr>
-                                    <th class="is-link">{{page[2]}}</th>
-                                    <td class="is-link">({{page[3]}} bytes)</td>
-                                    {% if page[3]!='' %}
-                                    <td class="is-link">redirects to {{page[3]}}</td>
-                                    {% else %}
-                                    <td class="is-link"></td>
-                                    {% endif %}
-                                </tr>
+                            <tr>
+                                <th class="is-link">{{page[2]}}</th>
+                                <td class="is-link">({{page[3]}} bytes)</td>
+                                {% if page[3]!='' %}
+                                <td class="is-link">redirects to {{page[3]}}</td>
+                                {% else %}
+                                <td class="is-link"></td>
+                                {% endif %}
+                            </tr>
                             </tr>
                             {% endfor %}
                         </tbody>

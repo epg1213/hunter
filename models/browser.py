@@ -1,4 +1,5 @@
 import requests
+from models.api import save_response
 
 class RequestMaker():
   def __init__(self):
@@ -24,4 +25,10 @@ class RequestMaker():
         response = requests.put(url, params, allow_redirects=False, headers=self.headers)
       case 'DELETE':
         response = requests.delete(url, allow_redirects=False, headers=self.headers)
+    if "location" in response.headers and response.status_code<400 and response.status_code>299:
+      redirect=response.headers["location"]
+    else:
+      redirect=''
+    byte_count=len(response.text)
+    save_response(baseURL, path, byte_count, redirect)
     return response

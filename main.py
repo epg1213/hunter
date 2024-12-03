@@ -5,8 +5,9 @@ crawler = Crawler()
 crawler.crawl(url)
 print(crawler.visited)"""
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from models.api import *
+from models.crawler import Crawler
 
 app = Flask(__name__)
 
@@ -31,5 +32,13 @@ def website():
     if 'id' in request.args:
         website_id=request.args['id']
     return render_template('website.html', website=get_website(website_id), pages=get_pages(website_id))
+
+@app.route('/crawl')
+def crawl():
+    if not 'id' in request.form:
+        return jsonify({"success":False})
+    website_id=request.form['id']
+    crawler = Crawler()
+    crawler.crawl(get_url(website_id))
 
 app.run(host='0.0.0.0', port=42602)

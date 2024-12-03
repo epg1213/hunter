@@ -31,3 +31,26 @@ def get_website(website_id):
 
 def get_pages(website_id):
     return db.request("SELECT * FROM page WHERE website_id=%s ORDER BY id DESC", (website_id,))
+
+def get_url(website_id):
+    url=db.request("SELECT name FROM website WHERE id=%s ORDER BY id DESC", (website_id,))
+    if len(url)>0:
+        return url[0][0]
+    return ''
+
+def get_website_id(url):
+    website_id=db.request("SELECT id FROM website WHERE name LIKE CONCAT(%s, '%') ORDER BY id DESC", (url,))
+    if len(website_id)>0:
+        return website_id[0][0]
+    else:
+        return 0
+
+def save_response(baseURL, path, byte_count, redirect):
+    website_id=get_website_id(baseURL)
+    if website_id==0:
+        return
+    try:
+        db.request("INSERT INTO page(website_id, name, max_content_length, redirects) VALUES(%s, %s, %s, %s)",
+        (website_id, path, byte_count, redirect))
+    except:
+        pass
