@@ -1,15 +1,14 @@
 import mysql.connector
-from os import listdir
+from os import listdir, environ
 from time import sleep
 
 class DataBase:
     def __init__(self):
-        with open('.dbpass', 'r') as file:
-            password=file.read()[:16]
+        password=environ['SQLPASS']
         self.user='root'
         self.password=password
         self.host='127.0.0.1'
-        self.port='42601'
+        self.port=environ['SQLPORT']
         self.database='hunting'
 
     def request(self, query, params, many=False):
