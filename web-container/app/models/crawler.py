@@ -1,7 +1,7 @@
 from html.parser import HTMLParser
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
-from models.browser import RequestMaker
+from app.models.browser import RequestMaker
 
 class LinksInHTMLParser(HTMLParser):
   def get_value_from_attrs(self, attrs, key):

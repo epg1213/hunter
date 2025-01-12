@@ -33,22 +33,3 @@ class DataBase:
         cursor.close()
         cnx.close()
         return data
-    
-    def runfile(self, filename):
-        with open(filename, 'r') as file:
-            content=file.read()
-        for query in content.replace('\n', ' ').split(';')[:-1]:
-            self.request(query, ())
-
-if __name__=="__main__":
-    db=DataBase()
-    for i in range(30):
-        try:
-            db.request('SHOW TABLES', ())
-            break
-        except mysql.connector.errors.OperationalError:
-            sleep(1)
-    if i==29:
-        exit("ERROR: Could not connect to database after 30 attempts.")
-    for file in listdir('db_setup'):
-        db.runfile(f"db_setup/{file}")

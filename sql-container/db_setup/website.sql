@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS hunting.website
+
 CREATE TABLE website (
     id int NOT NULL AUTO_INCREMENT,
     project_id int,

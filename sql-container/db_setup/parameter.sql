@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS hunting.parameter
+
 CREATE TABLE parameter (
     id int NOT NULL AUTO_INCREMENT,
     page_id int,

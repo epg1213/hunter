@@ -1,5 +1,5 @@
 import requests
-from models.api import save_response
+from app.models.api import save_response
 
 class RequestMaker():
   def __init__(self):

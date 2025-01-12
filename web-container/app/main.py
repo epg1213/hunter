@@ -6,8 +6,8 @@ crawler.crawl(url)
 print(crawler.visited)"""
 
 from flask import Flask, render_template, request, jsonify
-from models.api import *
-from models.crawler import Crawler
+from app.models.api import *
+from app.models.crawler import Crawler
 
 app = Flask(__name__)
 
@@ -42,4 +42,4 @@ def crawl():
     crawler.crawl(get_url(website_id))
     jsonify({"success":True})
 
-app.run(host='0.0.0.0', port=42602)
+#app.run(host='0.0.0.0', port=42602)

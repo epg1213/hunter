@@ -1,4 +1,4 @@
-from models.database import DataBase
+from app.models.database import DataBase
 import datetime
 
 db=DataBase()
