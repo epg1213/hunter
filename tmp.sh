@@ -1,4 +1,4 @@
-. /hunter.conf
+. ./hunter.conf
 cd sql-container
 sudo docker stop hunter-sql
 sudo docker remove hunter-sql
