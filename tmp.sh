@@ -13,5 +13,6 @@ sudo docker image rm hunter-web-img
 sudo docker build -t hunter-web-img .
 sudo docker run --name hunter-web -d -p $WEBPORT:80 -e MYSQL_PORT=$SQLPORT -e MYSQL_ROOT_PASSWORD=$SQLPASS hunter-web-img
 cd ..
+sleep 5
 sudo docker start hunter-sql
 sudo docker start hunter-web

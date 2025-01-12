@@ -1,7 +1,7 @@
-from app.models.database import DataBase
+from app.models import database
 import datetime
 
-db=DataBase()
+db=database.DataBase()
 
 def get_projects():
     return db.request("SELECT * FROM project ORDER BY id DESC", ())

@@ -1,5 +1,5 @@
 import requests
-from app.models.api import save_response
+from app.models import api
 
 class RequestMaker():
   def __init__(self):
@@ -30,5 +30,5 @@ class RequestMaker():
     else:
       redirect=''
     byte_count=len(response.text)
-    save_response(baseURL, path, byte_count, redirect)
+    api.save_response(baseURL, path, byte_count, redirect)
     return response

@@ -1,7 +1,7 @@
 from html.parser import HTMLParser
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
-from app.models.browser import RequestMaker
+from app.models import browser
 
 class LinksInHTMLParser(HTMLParser):
   def get_value_from_attrs(self, attrs, key):
@@ -63,7 +63,7 @@ class LinksInHTMLParser(HTMLParser):
 
 class Crawler:
   def __init__(self, depth=5, max_visits=10):
-    self.browser=RequestMaker()
+    self.browser=browser.RequestMaker()
     self.depth=depth
     self.max_visits=max_visits
 
