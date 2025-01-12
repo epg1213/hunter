@@ -4,11 +4,11 @@ from time import sleep
 
 class DataBase:
     def __init__(self):
-        password=environ['SQLPASS']
+        password="16-char-PASSWORD"#environ['SQLPASS']
         self.user='root'
         self.password=password
         self.host='127.0.0.1'
-        self.port=environ['SQLPORT']
+        self.port=42601#environ['SQLPORT']
         self.database='hunting'
 
     def request(self, query, params, many=False):
