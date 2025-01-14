@@ -7,7 +7,7 @@ class DataBase:
         self.user='root'
         self.password=getenv("SQLPASS", "16-char-PASSWORD")
         self.host=getenv("IPADDR", '192.168.1.1')
-        self.port=getenv("SQLPORT", 42601)
+        self.port=int(getenv("SQLPORT", 42601))
         self.database='hunting'
 
     def request(self, query, params, many=False):
