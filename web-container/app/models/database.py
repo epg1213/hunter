@@ -1,14 +1,13 @@
 import mysql.connector
-from os import listdir, environ
+from os import listdir, getenv
 from time import sleep
 
 class DataBase:
     def __init__(self):
-        password="16-char-PASSWORD"#environ['SQLPASS']
         self.user='root'
-        self.password=password
-        self.host='127.0.0.1'
-        self.port=42601#environ['SQLPORT']
+        self.password=getenv("SQLPASS", "16-char-PASSWORD")
+        self.host=getenv("IPADDR", '192.168.1.1')
+        self.port=getenv("SQLPORT", 42601)
         self.database='hunting'
 
     def request(self, query, params, many=False):
