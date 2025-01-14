@@ -1,7 +1,7 @@
 # Gunicorn config variables
 loglevel = "info"
-errorlog = "/dev/null"  # stderr
-accesslog = "/dev/null"  # stdout
+errorlog = "/var/log/error.log"  # stderr
+accesslog = "/var/log/access.log"  # stdout
 worker_tmp_dir = "/dev/shm"
 graceful_timeout = 120
 timeout = 120
