@@ -1,4 +1,10 @@
 echo "Loading configuration file..."
+grep "x.x.x.x" hunter.conf >/dev/null
+if [ "$?" = "0" ]; then
+  echo "Please check hunter.conf file."
+  echo "You should update your ip address and the database password."
+  exit
+fi
 . ./hunter.conf
 echo "Checking for docker installation..."
 if ! docker --version; then
