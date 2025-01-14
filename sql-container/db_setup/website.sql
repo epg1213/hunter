@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS hunting.website
+DROP TABLE IF EXISTS hunting.website;
 
 CREATE TABLE website (
     id int NOT NULL AUTO_INCREMENT,

@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS hunting.project
+DROP TABLE IF EXISTS hunting.project;
 
 CREATE TABLE project (
     id int NOT NULL AUTO_INCREMENT,

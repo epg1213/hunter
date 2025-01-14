@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS hunting.page
+DROP TABLE IF EXISTS hunting.page;
 
 CREATE TABLE page (
     id int NOT NULL AUTO_INCREMENT,
