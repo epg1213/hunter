@@ -14,10 +14,6 @@ sudo docker remove hunter-sql
 sudo docker image rm hunter-sql-img
 sudo docker build -t hunter-sql-img .
 sudo docker run --name hunter-sql -d -p $SQLPORT:3306 -e MYSQL_ROOT_PASSWORD=$SQLPASS -e MYSQL_DATABASE=hunting hunter-sql-img
-sudo docker exec -d hunter-sql /bin/sh -c "mysql -u root -p$SQLPASS </db_setup/page.sql"
-sudo docker exec -d hunter-sql /bin/sh -c "mysql -u root -p$SQLPASS </db_setup/parameter.sql"
-sudo docker exec -d hunter-sql /bin/sh -c "mysql -u root -p$SQLPASS </db_setup/project.sql"
-sudo docker exec -d hunter-sql /bin/sh -c "mysql -u root -p$SQLPASS </db_setup/website.sql"
 cd ..
 echo "Setting up Web container..."
 cd web-container
@@ -26,3 +22,10 @@ sudo docker remove hunter-web
 sudo docker image rm hunter-web-img
 sudo docker build -t hunter-web-img .
 sudo docker run --name hunter-web -d -p $WEBPORT:80 -e MYSQL_PORT=$SQLPORT -e MYSQL_ROOT_PASSWORD=$SQLPASS hunter-web-img
+cd ..
+sleep 5
+echo "Setting up database..."
+sudo docker exec -d hunter-sql /bin/sh -c "mysql -u root -p$SQLPASS </db_setup/page.sql"
+sudo docker exec -d hunter-sql /bin/sh -c "mysql -u root -p$SQLPASS </db_setup/parameter.sql"
+sudo docker exec -d hunter-sql /bin/sh -c "mysql -u root -p$SQLPASS </db_setup/project.sql"
+sudo docker exec -d hunter-sql /bin/sh -c "mysql -u root -p$SQLPASS </db_setup/website.sql"
