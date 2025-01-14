@@ -14,8 +14,8 @@ sudo docker remove hunter-sql
 sudo docker image rm hunter-sql-img
 sudo docker build -t hunter-sql-img .
 sudo docker run --name hunter-sql -d -p $SQLPORT:3306 -e MYSQL_ROOT_PASSWORD=$SQLPASS -e MYSQL_DATABASE=hunting hunter-sql-img
-echo "Waiting for database to be healthy..."
-while ! docker exec hunter-sql mysql --user=root --password=$SQLPAS -e "status" &> /dev/null ; do
+echo -n "Waiting for database to be healthy..."
+while ! docker exec hunter-sql mysql --user=root --password=$SQLPASS -e "status" &> /dev/null ; do
     echo -n "."
     sleep 1
 done
