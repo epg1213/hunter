@@ -31,5 +31,5 @@ sudo docker stop hunter-web
 sudo docker remove hunter-web
 sudo docker image rm hunter-web-img
 sudo docker build -t hunter-web-img .
-sudo docker run --name hunter-web -d -p $WEBPORT:80 -e IPADDR=$IPADDR -e MYSQL_PORT=$SQLPORT -e MYSQL_ROOT_PASSWORD=$SQLPASS hunter-web-img
+sudo docker run --name hunter-web -d -p $WEBPORT:80 -e IPADDR=$IPADDR -e SQLPORT=$SQLPORT -e SQLPASS=$SQLPASS hunter-web-img
 cd ..
