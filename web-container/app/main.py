@@ -37,8 +37,13 @@ def crawl():
     if not 'id' in request.json:
         return jsonify({"success":False})
     website_id=request.json['id']
-    crawler = crawler.Crawler()
-    crawler.crawl(api.get_url(website_id))
+    crawler.Crawler().crawl(api.get_url(website_id))
     jsonify({"success":True})
 
+@app.route('/website_data')
+def website_data():
+    if not 'id' in request.args:
+        return jsonify({"success":False, "data":None})
+    website_id=request.args['id']
+    return jsonify({"success":True, "data":api.get_website_data(website_id)})
 #app.run(host='0.0.0.0', port=42602)

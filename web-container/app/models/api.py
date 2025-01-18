@@ -44,6 +44,19 @@ def get_website_id(url):
         return website_id[0][0]
     else:
         return 0
+    
+def get_website_data(website_id):
+    data=db.request("SELECT * FROM page WHERE website_id=%s", (website_id,))
+    res={}
+    for page in data:
+        res[page[0]]={
+        "id": page[0],
+        "website_id": page[1],
+        "name": page[2],
+        "max_content_length": page[3],
+        "redirects": page[4]
+        }
+    return res
 
 def save_response(baseURL, path, byte_count, redirect):
     website_id=get_website_id(baseURL)
