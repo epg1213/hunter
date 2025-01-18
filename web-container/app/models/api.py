@@ -63,7 +63,16 @@ def save_response(baseURL, path, byte_count, redirect):
     if website_id==0:
         return
     try:
-        db.request("INSERT INTO page(website_id, name, max_content_length, redirects) VALUES(%s, %s, %s, %s)",
-        (website_id, path, byte_count, redirect))
+        existing = db.request("SELECT max_content_length, id FROM page WHERE website_id=%s AND name=%s", (website_id, path))
+        if len(existing)==0:
+            db.request("INSERT INTO page(website_id, name, max_content_length, redirects) VALUES(%s, %s, %s, %s)",
+            (website_id, path, byte_count, redirect))
+        else:
+            old_byte_count=existing[0][0]
+            page_id=existing[0][1]
+            if int(old_byte_count)<byte_count:
+                db.request("UPDATE page set max_content_length=%s WHERE id=%s",(old_byte_count, page_id))
+            if redirect!="":
+                db.request("UPDATE page set redirects=%s WHERE id=%s",(redirect, page_id))
     except:
         pass
