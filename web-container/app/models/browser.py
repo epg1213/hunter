@@ -9,9 +9,7 @@ class RequestMaker():
     self.headers['Cookie'] = cookie
 
   def make_request(self, baseURL, link):
-    method, netloc, path, params = link
-    if netloc!='':
-      return 0
+    method, _, path, params = link
     if path.startswith('/'):
       url=f"{baseURL}{path}"
     else:
