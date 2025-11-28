@@ -21,43 +21,43 @@ pub enum HunterErrType {
 #[derive(Debug)]
 pub struct HunterError {
     pub value: String,
-    pub errtype: HunterErrType
+    pub _errtype: HunterErrType
 }
 impl From<InvalidMethod> for HunterError {
     fn from(item: InvalidMethod) -> Self {
         Self { value: item.to_string(),
-        errtype: HunterErrType::InvalidMethodError}
+        _errtype: HunterErrType::InvalidMethodError}
     }
 }
 impl From<reqwest::Error> for HunterError {
     fn from(item: reqwest::Error) -> Self {
         Self { value: item.to_string(),
-        errtype: HunterErrType::ReqwestError}
+        _errtype: HunterErrType::ReqwestError}
     }
 }
 impl From<std::string::String> for HunterError {
     fn from(item: String) -> Self {
         Self { value: item,
-        errtype: HunterErrType::Other}
+        _errtype: HunterErrType::Other}
     }
 }
 impl From<RequestBinError> for HunterError {
     fn from(item: RequestBinError) -> Self {
         Self { value: item.value,
-        errtype: HunterErrType::RequestBinError}
+        _errtype: HunterErrType::RequestBinError}
     }
 }
 impl From<InvalidHeaderValue> for HunterError {
     fn from(item: InvalidHeaderValue) -> Self {
         Self { value: item.to_string(),
-        errtype: HunterErrType::InvalidHeaderValueError}
+        _errtype: HunterErrType::InvalidHeaderValueError}
     }
 
 }
 impl From<ParseError> for HunterError {
     fn from(item: ParseError) -> Self {
         Self { value: item.to_string(),
-        errtype: HunterErrType::UrlParsingError}
+        _errtype: HunterErrType::UrlParsingError}
     }
 
 }
@@ -65,7 +65,7 @@ impl From<ParseError> for HunterError {
 impl From<ctrlc::Error> for HunterError {
     fn from(item: ctrlc::Error) -> Self {
         Self { value: item.to_string(),
-        errtype: HunterErrType::SIGKILLError}
+        _errtype: HunterErrType::SIGKILLError}
     }
 
 }
@@ -73,15 +73,15 @@ impl From<ctrlc::Error> for HunterError {
 impl HunterError {
     pub fn out_of_scope(url: impl AsRef<str>) -> HunterError {
         HunterError { value: format!("Url \"{}\" out of scope.", url.as_ref()),
-            errtype: HunterErrType::OutOfScopeError}
+            _errtype: HunterErrType::OutOfScopeError}
     }
     pub fn no_target() -> HunterError {
         HunterError { value: String::from("No target set."),
-            errtype: HunterErrType::NoTargetError}
+            _errtype: HunterErrType::NoTargetError}
     }
     pub fn no_rbin() -> HunterError {
         HunterError { value: String::from("No Request Bin set."),
-            errtype: HunterErrType::NoRequestBinError}
+            _errtype: HunterErrType::NoRequestBinError}
     }
 }
 

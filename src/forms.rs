@@ -1,5 +1,5 @@
 use uuid::Uuid;
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashMap};
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Form {

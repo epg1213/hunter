@@ -21,9 +21,9 @@ fn ctrl_channel() -> Result<Receiver<()>, ctrlc::Error> {
 
 #[derive(Debug, Clone)]
 pub struct Page {
-    pub url: String,
-    pub status: StatusCode,
-    pub html: String,
+    pub _url: String,
+    pub _status: StatusCode,
+    pub _html: String,
     pub urls: HashSet<String>,
     pub forms: Vec<Form>
 }
@@ -91,9 +91,9 @@ impl HunterClient {
             });
         }
         let page = Page {
-                url: url.as_ref().to_string(),
-                status: status,
-                html: html.clone(),
+                _url: url.as_ref().to_string(),
+                _status: status,
+                _html: html.clone(),
                 urls: urls,
                 forms: forms
             };
@@ -101,15 +101,15 @@ impl HunterClient {
         Ok(page)
     }
 
-    pub async fn get_html(&mut self, url: impl AsRef<str>+IntoUrl) -> Result<String, HunterError> {
-        Ok(self.make_request("GET", url, None).await?.html)
+    pub async fn _get_html(&mut self, url: impl AsRef<str>+IntoUrl) -> Result<String, HunterError> {
+        Ok(self.make_request("GET", url, None).await?._html)
     }
 
-    pub async fn fetch_urls(&mut self, url: impl AsRef<str>+IntoUrl) -> Result<HashSet<String>, HunterError> {
+    pub async fn _fetch_urls(&mut self, url: impl AsRef<str>+IntoUrl) -> Result<HashSet<String>, HunterError> {
         Ok(self.make_request("GET", url.as_ref(), None).await?.urls)
     }
 
-    pub async fn fetch_forms(&mut self, url: impl AsRef<str>+IntoUrl) -> Result<Vec<Form>, HunterError> {
+    pub async fn _fetch_forms(&mut self, url: impl AsRef<str>+IntoUrl) -> Result<Vec<Form>, HunterError> {
         Ok(self.make_request("GET", url, None).await?.forms)
     }
 
@@ -224,7 +224,7 @@ mod tests {
     async fn test_get_html() -> Result<(), HunterError> {
         let mut client = HunterClient::new()?;
         let _ = client.scope("https://httpbin.org/ip");
-        match client.get_html("https://httpbin.org/ip").await {
+        match client._get_html("https://httpbin.org/ip").await {
             Ok(_) => { Ok(()) },
             Err(e) => { Err(e) }
         }
@@ -234,7 +234,7 @@ mod tests {
     async fn test_fetch_urls() -> Result<(), HunterError> {
         let mut client = HunterClient::new()?;
         let _ = client.scope("https://httpbin.org/ip");
-        let urls = client.fetch_urls("https://httpbin.org/ip").await?;
+        let urls = client._fetch_urls("https://httpbin.org/ip").await?;
         assert_eq!(urls, HashSet::<String>::new());
         Ok(())
     }
@@ -243,7 +243,7 @@ mod tests {
     async fn test_fetch_forms() -> Result<(), HunterError> {
         let mut client = HunterClient::new()?;
         let _ = client.scope("https://httpbin.org/ip");
-        let urls = client.fetch_forms("https://httpbin.org/ip").await?;
+        let urls = client._fetch_forms("https://httpbin.org/ip").await?;
         assert_eq!(urls, Vec::<Form>::new());
         Ok(())
     }

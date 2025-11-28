@@ -1,7 +1,4 @@
 mod hunter;
-use std::collections::HashMap;
-
-use hunter::errors::HunterError;
 mod requestbin;
 mod forms;
 mod parsing;

@@ -1,5 +1,5 @@
 use reqwest::{Client, Error};
-use serde_json::{value, Value};
+use serde_json::{Value};
 use scraper::{Html, Selector};
 use std::thread;
 use scraper::error::SelectorErrorKind;
@@ -17,10 +17,10 @@ impl RBin for RequestBin {
             RequestBin::Public(public) => { public.read().await }
         }
     }
-    async fn write(&self, data: String) -> Result<(), RequestBinError> {
+    async fn _write(&self, data: String) -> Result<(), RequestBinError> {
         match self {
-            RequestBin::Private(private) => { private.write(data).await },
-            RequestBin::Public(public) => { public.write(data).await }
+            RequestBin::Private(private) => { private._write(data).await },
+            RequestBin::Public(public) => { public._write(data).await }
         }
     }
     fn get_payload(&self, withdata: String) -> String {
@@ -57,7 +57,7 @@ impl From<std::io::Error> for RequestBinError {
     }
 }
 pub trait RBin {
-    fn write(&self, data: String) -> impl Future<Output = Result<(), RequestBinError>>;
+    fn _write(&self, data: String) -> impl Future<Output = Result<(), RequestBinError>>;
     fn read(&self) -> impl Future<Output = Result<Vec<String>, RequestBinError>>;
     fn get_payload(&self, withdata: String) -> String;
 }
@@ -85,7 +85,7 @@ impl PublicRequestBin {
     }
 }    
 impl RBin for PublicRequestBin {
-    async fn write(&self, data: String) -> Result<(), RequestBinError> {
+    async fn _write(&self, data: String) -> Result<(), RequestBinError> {
         let _ = self.webclient.get(format!("http://requestbin.cn/{}?data={}", self.name, data).as_str()).send().await?;
         Ok(())
     }
@@ -114,7 +114,7 @@ impl RBin for PublicRequestBin {
 pub struct PrivateRequestBin {
     webclient: Client,
     baseurl: String,
-    server: thread::JoinHandle<()>
+    //server: thread::JoinHandle<()>
 }
 
 impl PrivateRequestBin {
@@ -124,19 +124,19 @@ impl PrivateRequestBin {
         let mut server = PrivateServer::new(bindaddr)?;
         let builder = Client::builder();
         let client = builder.build()?;
-        let srv_thread = thread::spawn(move || {
+        let _srv_thread = thread::spawn(move || {
             server.start();
         });
         Ok(Self {
             webclient: client,
             baseurl: baseurl,
-            server: srv_thread
+            //server: srv_thread
         })
     }
 }
 
 impl RBin for PrivateRequestBin {
-    async fn write(&self, data: String) -> Result<(), RequestBinError> {
+    async fn _write(&self, data: String) -> Result<(), RequestBinError> {
         let _ = self.webclient.get(format!("{}?data={}", self.baseurl, data).as_str()).send().await?;
         Ok(())
     }
@@ -237,7 +237,7 @@ mod tests {
               return Err(format!("Could not create client: {}", e.value));
             }
         };
-        let _ = match bin.write("0xdeadbeef".to_string()).await {
+        let _ = match bin._write("0xdeadbeef".to_string()).await {
             Ok(v) => {v},
             Err(e) => {
                 return Err(format!("Could not write string: {}", e.value));
@@ -261,7 +261,7 @@ mod tests {
               return Err(format!("Could not create client: {}", e.value));
             }
         };
-        let _ = match bin.write("0xdeadbeef".to_string()).await {
+        let _ = match bin._write("0xdeadbeef".to_string()).await {
             Ok(v) => {v},
             Err(e) => {
                 return Err(format!("Could not write string: {}", e.value));
