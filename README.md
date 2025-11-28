@@ -3,6 +3,8 @@
 
 XSS - finding tool
 
+![poc](poc.png?raw=true)
+
 ## Installation
 
 git clone https://github.com/epg1213/hunter
